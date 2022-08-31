@@ -32,7 +32,7 @@ def create_user(email='user@example.com', password='test123'):
 
 class PublicTagsAPITests(TestCase):
     """Tests unauthenticated API reuests."""
-    
+
     def setUp(self):
         self.client = APIClient()
 
@@ -41,7 +41,7 @@ class PublicTagsAPITests(TestCase):
         res = self.client.get(TAGS_URLS)
 
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
-    
+
 
 class PrivatTagsAPITests(TestCase):
     """Tests for authenticated API reuests."""

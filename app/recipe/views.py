@@ -24,6 +24,7 @@ from core.models import (
     Ingredient,
 )
 
+
 @extend_schema_view(
     list=extend_schema(
         parameters=[
@@ -35,7 +36,8 @@ from core.models import (
             OpenApiParameter(
                 'ingredients',
                 OpenApiTypes.STR,
-                description='Comma separated list of ingredients IDs to filter',
+                description='Comma separated list of ingredients IDs \
+                             to filter',
             )
         ]
     )
@@ -72,9 +74,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return serializers.RecipeSerializer
         elif self.action == 'upload_image':
             return serializers.RecipeImageSeriazlizer
-        
+
         return self.serializer_class
-    
+
     def perform_create(self, serializer):
         """Performing creation recipe object in database."""
         serializer.save(user=self.request.user)
@@ -104,8 +106,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
     )
 )
 class BaseRecipeAttrViewSet(mixins.DestroyModelMixin,
-                            mixins.UpdateModelMixin, 
-                            mixins.ListModelMixin, 
+                            mixins.UpdateModelMixin,
+                            mixins.ListModelMixin,
                             viewsets.GenericViewSet):
     """Manage recipe attributes in the database."""
     authentication_classes = [TokenAuthentication]

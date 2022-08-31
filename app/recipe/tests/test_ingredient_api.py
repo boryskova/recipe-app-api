@@ -24,6 +24,7 @@ def detail_url(ingredient_id):
     """Create and return a ingredient detail URL."""
     return reverse('recipe:ingredient-detail', args=[ingredient_id])
 
+
 def create_user(email='user@example.com', password='test123'):
     """Create and return new user."""
     return get_user_model().objects.create_user(email=email, password=password)
@@ -31,7 +32,7 @@ def create_user(email='user@example.com', password='test123'):
 
 class PublicTagsAPITests(TestCase):
     """Tests unauthenticated API reuests."""
-    
+
     def setUp(self):
         self.client = APIClient()
 
@@ -63,10 +64,13 @@ class PrivatsAPITests(TestCase):
         self.assertEqual(res.data, serializer.data)
 
     def test_retrieve_ingredients_limited_to_user(self):
-        """Test that retrieved ingredients are limited to authenticated user."""
+        """Test retrieved ingredients are limited to authenticated user."""
         new_user = create_user(email='user2@example.com')
         Ingredient.objects.create(user=new_user, name='Sault')
-        new_ingredient = Ingredient.objects.create(user=self.user, name='Pepper')
+        new_ingredient = Ingredient.objects.create(
+            user=self.user,
+            name='Pepper',
+        )
 
         res = self.client.get(INGREDIENTS_URL)
 
@@ -77,7 +81,10 @@ class PrivatsAPITests(TestCase):
 
     def test_update_ingredient(self):
         """Test updating the ingredient."""
-        ingredient = Ingredient.objects.create(user=self.user, name='Coriander')
+        ingredient = Ingredient.objects.create(
+            user=self.user,
+            name='Coriander',
+        )
 
         payload = {'name': 'Coriander new'}
         url = detail_url(ingredient.id)
